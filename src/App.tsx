@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+import { Router } from "./components/Router";
+import { Profile } from "./pages/Profile";
+import { Friends } from "./pages/Friends";
+import { Home } from "./pages/Home";
+import { useState } from "react";
+import { CurrentUserContext } from "./shared";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState<null | number>(null);
+
+  const descriptionRoute = [
+    {
+      pathInBrowser: "/",
+      nameInMenu: "Home",
+      componentForVisualization: <Home />,
+    },
+    {
+      pathInBrowser: "/friends",
+      nameInMenu: "Friends",
+      componentForVisualization: <Friends />,
+    },
+    {
+      pathInBrowser: "/profile",
+      nameInMenu: "Profile",
+      componentForVisualization: <Profile />,
+    },
+  ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <Router descriptionRoute={descriptionRoute}></Router>
+    </CurrentUserContext.Provider>
   );
 }
 
